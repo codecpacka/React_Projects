@@ -1,11 +1,13 @@
-import { Fragment, useState } from "react"
+import { useState } from "react"
 import "./TodoList.css"
+import { TodoItem } from "./TodoItem"
 export default function TodoList() {
-    let [todoList, setTodoList] = useState([])
-    let [todoText, setTodoText] = useState("")
+    let [todoList, setTodoList] = useState([]) // todo list array initialized to empty array
+    let [todoText, setTodoText] = useState("")//state to caputer todo value/title 
     console.log(todoText)
 
-    function addToTodos() {
+    function addToTodos() {       //to add value to todoList Array
+        if (todoText == "") return
         setTodoList((todoList) => {
             return [
                 ...todoList,
@@ -14,13 +16,13 @@ export default function TodoList() {
         })
     }
 
-    function deleteTodo(id, todoList) {
+    function deleteTodo(id) { //to delete an element with the given id
         setTodoList(() => {
             return todoList.filter((todo) => todo.id !== id)
         })
     }
 
-    function checkReverse(id, completed) {
+    function checkReverse(id, completed) { // to set the current checked state after checked is clicked
         setTodoList(() => {
             return todoList.map((todo) => {
                 if (todo.id == id) {
@@ -36,28 +38,7 @@ export default function TodoList() {
             <ul id="list">
                 {todoList?.map((todo) => {
                     return (
-                        <Fragment key={todo.id}>
-                            <li className="list-item">
-                                <label className="list-item-label">
-                                    <input
-                                        type="checkbox"
-                                        data-list-item-checkbox
-                                        checked={todo.completed}
-                                        onChange={(e) => {
-                                            checkReverse(todo.id, e.target.checked)
-                                        }}
-                                    />
-                                    <span data-list-item-text>{todo.title}</span>
-                                </label>
-                                <button
-                                    data-button-delete
-                                    onClick={() => {
-                                        deleteTodo(todo.id, todoList)
-                                    }}>
-                                    Delete
-                                </button>
-                            </li>
-                        </Fragment>
+                        <TodoItem key={crypto.randomUUID()} {...todo} deleteTodo={deleteTodo} checkReverse={checkReverse} /> // renduring todoItems child by passing different props and helder functions
                     )
                 })}
             </ul>
