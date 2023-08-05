@@ -43,7 +43,7 @@ export default function TodoList() {
                 })}
             </ul>
 
-            <div id="new-todo-form">
+            <form id="new-todo-form">
                 <label htmlFor="todo-input">New Todo</label>
                 <input
                     type="text"
@@ -53,7 +53,7 @@ export default function TodoList() {
                     }}
                 />
                 <button onClick={addToTodos}>Add Todo</button>
-            </div>
+            </form>
         </>
     )
 }
