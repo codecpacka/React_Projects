@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react'
 // import viteLogo from '/vite.svg'
 // import Child from "./Child"
 // import StateForm from "./FormBasic/StateForm"
-import RefForm from './FormBasic/RefForm'
+// import RefForm from './FormBasic/RefForm'
+import { UseContexTest } from './useContext'
 // import './App.css'
 
 function App() {
@@ -12,7 +13,8 @@ function App() {
   return (
     <>
       {/* <StateForm /> */}
-      <RefForm />
+      {/* <RefForm /> */}
+      <UseContexTest />
     </>
   )
 

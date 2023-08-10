@@ -1,13 +1,11 @@
 import { useState } from "react"
+import { GrandChild } from "./GrandChild"
 
-export function Child({ data, changeName }) {
+export function Child() {
 
     return (
         <>
-            {data}
-            <button onClick={() => {
-                changeName("piggy")
-            }}>click me to change</button>
+            <GrandChild />
         </>
     )
 }

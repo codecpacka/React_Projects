@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback, useMemo } from "react"
+import { useState } from "react"
+import { useFetch } from "./useFetch"
 
 // If the API does not work use these local URLs
 // const URLS = {
@@ -13,23 +14,10 @@ const URLS = {
     COMMENTS: "https://jsonplaceholder.typicode.com/comments",
 }
 
-// BONUS:
-// const OPTIONS = {
-//   method: "POST",
-//   body: JSON.stringify({ name: "Kyle" }),
-//   headers: {
-//     "Content-type": "application/json",
-//   },
-// }
-
-function FetchData() {
-    let { url, setUrl, onChange } = useCheckbox("USERS")
-
+function App() {
+    const [url, setUrl] = useState(URLS.USERS)
 
     const { data, isLoading, isError } = useFetch(url)
-
-    // BONUS:
-    // const { data, isLoading, isError } = useFetch(url, OPTIONS)
 
     return (
         <>
@@ -38,7 +26,7 @@ function FetchData() {
                     <input
                         type="radio"
                         checked={url === URLS.USERS}
-                        onChange={onChange}
+                        onChange={() => setUrl(URLS.USERS)}
                     />
                     Users
                 </label>
@@ -59,59 +47,15 @@ function FetchData() {
                     Comments
                 </label>
             </div>
-
-
             {isLoading ? (
                 <h1>Loading...</h1>
             ) : isError ? (
-                <h1>{Error}</h1>
+                <h1>Error</h1>
             ) : (
                 <pre>{JSON.stringify(data, null, 2)}</pre>
             )}
         </>
     )
-
-    function useFetch(url) {
-        const [data, setData] = useState()
-        const [isLoading, setLoading] = useState()
-        const [isError, setError] = useState(false)
-
-        useEffect(() => {
-            setLoading(true)
-            const controller = new AbortController();
-            const signal = controller.signal;
-            fetch(url, { signal })
-                .then((res) => res.json())
-                .then((data) => {
-                    console.log(data)
-                    setData(data)
-                })
-                .catch((err) => {
-                    setError(err)
-                })
-                .finally(() => {
-                    setLoading(false)
-                })
-            return (() => {
-                controller.abort();
-                console.log("aborted fetch")
-            })
-
-        }, [url])
-
-        return { data, isLoading, isError }
-    }
 }
 
-
-function useCheckbox(url) {
-
-    const [url, setUrl] = useState(URLS.url)
-
-    let checked = url === URLS.COMMENTS
-    function onChange() {
-        setUrl(URLS.COMMENTS)
-    }
-    return { url, checked, onChange }
-}
-export default FetchData
+export default App
